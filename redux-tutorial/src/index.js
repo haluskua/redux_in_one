@@ -37,7 +37,7 @@ const store = createStore(
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <App aRandomProps ="whatever"/>
     </Provider>
     ,
   </React.StrictMode>,

@@ -18,6 +18,7 @@ class App extends Component {
   }
 
   render() {
+  console.log(this.props)
     return (
       <div className="App">
         <header className="App-header">
@@ -41,10 +42,14 @@ class App extends Component {
   }
 }
 
-const mapStateProps = (state) => ({
-  products: state.products,
-  user: state.user,
-});
+const mapStateProps = (state, props) => {
+  // console.log(props)
+  return {
+    products: state.products,
+    user: state.user,
+    userPlusProps: `${state.user} ${props.aRandomProps}`
+  }
+};
 
 const mapActionsToProps = {
   onUpdateUser: updateUser,
