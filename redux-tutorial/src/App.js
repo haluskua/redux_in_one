@@ -19,7 +19,7 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.props);
+    // console.log(this.props);
     return (
       <div className="App">
         <header className="App-header">
@@ -53,6 +53,8 @@ const mapStateProps = (state, props) => {
 };
 
 const mapActionsToProps = (dispatch, props) => {
+  // console.log(props);
+
   return bindActionCreators(
     {
       onUpdateUser: updateUser,
@@ -61,4 +63,10 @@ const mapActionsToProps = (dispatch, props) => {
   );
 };
 
-export default connect(mapStateProps, mapActionsToProps)(App);
+const mergeProps = (propsFromState, propsFromDispatch, ownProps) => {
+  console.log(propsFromState, propsFromDispatch, ownProps);
+
+  return {};
+};
+
+export default connect(mapStateProps, mapActionsToProps, mergeProps)(App);
