@@ -2,6 +2,7 @@ import React from "react";
 import { Component } from "react";
 import logo from "./logo.svg";
 import "./App.css";
+import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { render } from "@testing-library/react";
 import { updateUser } from "./actions/user-actions";
@@ -18,7 +19,7 @@ class App extends Component {
   }
 
   render() {
-  console.log(this.props)
+    console.log(this.props);
     return (
       <div className="App">
         <header className="App-header">
@@ -47,12 +48,17 @@ const mapStateProps = (state, props) => {
   return {
     products: state.products,
     user: state.user,
-    userPlusProps: `${state.user} ${props.aRandomProps}`
-  }
+    userPlusProps: `${state.user} ${props.aRandomProps}`,
+  };
 };
 
-const mapActionsToProps = {
-  onUpdateUser: updateUser,
+const mapActionsToProps = (dispatch, props) => {
+  return bindActionCreators(
+    {
+      onUpdateUser: updateUser,
+    },
+    dispatch
+  );
 };
 
 export default connect(mapStateProps, mapActionsToProps)(App);
