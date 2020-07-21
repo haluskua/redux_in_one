@@ -3,7 +3,8 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
-import { combineReducers, createStore } from "redux";
+import thunk from "redux-thunk";
+import { applyMiddleware, compose, combineReducers, createStore } from "redux";
 //use Provider to give access to the store
 import { Provider } from "react-redux";
 import productsReducer from "./reducers/products-reducer";
@@ -13,14 +14,17 @@ const allReducers = combineReducers({
   products: productsReducer,
   user: userReducer,
 });
-
+const allStoreEnhancers = compose(
+  applyMiddleware(thunk),
+  window.devToolsExtension && window.devToolsExtension()
+);
 const store = createStore(
   allReducers,
   {
     products: [{ name: "iPhone" }],
     user: "Michael",
   },
-  window.devToolsExtension && window.devToolsExtension()
+  allStoreEnhancers
 );
 
 // console.log(store.getState());
@@ -37,7 +41,7 @@ const store = createStore(
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App aRandomProps ="whatever"/>
+      <App aRandomProps="whatever" />
     </Provider>
     ,
   </React.StrictMode>,
