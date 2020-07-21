@@ -1,8 +1,9 @@
 import React from "react";
 import { Component } from "react";
 import logo from "./logo.svg";
+import { createSelector } from "reselect";
 import "./App.css";
-import { bindActionCreators } from "redux";
+import { bindActionCreators, createStore } from "redux";
 import { connect } from "react-redux";
 import { render } from "@testing-library/react";
 import { updateUser, apiRequest } from "./actions/user-actions";
@@ -50,14 +51,31 @@ class App extends Component {
   }
 }
 
-const mapStateProps = (state, props) => {
-  // console.log(props)
-  return {
-    products: state.products,
-    user: state.user,
-    userPlusProps: `${state.user} ${props.aRandomProps}`,
-  };
-};
+const productsSelector = createSelector(
+  (state) => state.products,
+  (products) => products
+);
+const userSelector = createSelector(
+  (state) => state.user,
+  (user) => user
+);
+
+const mapStateToProps = createSelector(
+  productsSelector,
+  userSelector,
+  (products, user) => ({
+    products,
+    user,
+  })
+);
+// const mapStateProps = (state, props) => {
+//   // console.log(props)
+//   return {
+//     products: state.products,
+//     user: state.user,
+//     userPlusProps: `${state.user} ${props.aRandomProps}`,
+//   };
+// };
 
 const mapActionsToProps = {
   // console.log(props);
@@ -72,4 +90,4 @@ const mapActionsToProps = {
 //   return {};
 // };
 
-export default connect(mapStateProps, mapActionsToProps)(App);
+export default connect(mapStateToProps, mapActionsToProps)(App);
